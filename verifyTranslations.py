@@ -6,7 +6,7 @@ import smtplib
 from email.mime.text import MIMEText
 
 notification_config = {
-	'cs': ['murbanec-ctr@wikimedia.org']
+	'cs': ['murbanec-ctr@wikimedia.org'],
 }
 
 def notify_ambassador(lang, not_in_order):
@@ -35,10 +35,9 @@ def make_url(part, lang):
 	return 'https://raw.githubusercontent.com/wikimedia/mediawiki-extensions-GrowthExperiments/master/i18n/%(part)s/%(lang)s.json' % { 'lang': lang, 'part': part }
 
 parts = ['confirmemail', 'extension', 'help', 'homepage', 'welcomesurvey']
-langs = ['cs']
 mainlang = 'en'
 
-for lang in langs:
+for lang in notification_config:
 	not_in_order = {}
 	for part in parts:
 		not_in_order[part] = []
