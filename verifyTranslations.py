@@ -9,6 +9,7 @@ notification_config = {
 	'cs': ['murbanec-ctr@wikimedia.org', 'mmiller@wikimedia.org'],
 	'ar': ['hmhenni-ctr@wikimedia.org', 'mmiller@wikimedia.org'],
 	'ko': ['mmiller@wikimedia.org'],
+	'vi': ['mmiller@wikimedia.org'],
 }
 
 def notify_ambassador(lang, not_in_order):
