@@ -8,8 +8,8 @@ from email.mime.text import MIMEText
 notification_config = {
 	'cs': ['murbanec-ctr@wikimedia.org', 'mmiller@wikimedia.org', 'bevellin@wikimedia.org'],
 	'ar': ['hmhenni-ctr@wikimedia.org', 'mmiller@wikimedia.org', 'bevellin@wikimedia.org'],
-	'ko': ['mmiller@wikimedia.org', 'bevellin@wikimedia.org'],
-	'vi': ['mmiller@wikimedia.org', 'bevellin@wikimedia.org'],
+	'ko': ['revi@wikimedia.org', 'mmiller@wikimedia.org', 'bevellin@wikimedia.org'],
+	'vi': ['ppham-ctr@wikimedia.org', 'mmiller@wikimedia.org', 'bevellin@wikimedia.org'],
 }
 
 def notify_ambassador(lang, not_in_order):
