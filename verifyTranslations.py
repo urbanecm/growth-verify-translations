@@ -22,8 +22,8 @@ def notify_ambassador(lang, not_in_order):
 			parts.append(part)
 			notification += "<h1>%s</h1>\n" % part
 			notification += "<ul>\n"
-			for key in not_in_order[part]:
-				notification += "<li>%s</li>\n" % key
+			for msg in not_in_order[part]:
+				notification += "<li>%s</li>\n" % msg['key']
 			notification += "</ul>\n"
 	if notification != "":
 		msg = MIMEText(notification, 'html')
@@ -34,22 +34,24 @@ def notify_ambassador(lang, not_in_order):
 		s.sendmail('urbanecm@tools.wmflabs.org', notification_config[lang], msg.as_string())
 		s.quit()
 
-def make_url(part, lang):
-	return 'https://raw.githubusercontent.com/wikimedia/mediawiki-extensions-GrowthExperiments/master/i18n/%(part)s/%(lang)s.json' % { 'lang': lang, 'part': part }
-
-parts = ['confirmemail', 'extension', 'help', 'homepage', 'welcomesurvey']
-mainlang = 'en'
+parts = [
+	'ext-growthexperiments-confirmemail',
+	'ext-growthexperiments-helppanel',
+	'ext-growthexperiments-homepage',
+	'ext-growthexperiments-welcomesurvey'
+]
 
 for lang in notification_config:
 	not_in_order = {}
 	for part in parts:
-		not_in_order[part] = []
-		main_messages = requests.get(make_url(part, mainlang)).json()
-		lang_messages = requests.get(make_url(part, lang)).json()
-		if len(main_messages) != len(lang_messages):
-			for key in main_messages:
-				if main_messages[key] == "":
-					continue
-				if key not in lang_messages:
-					not_in_order[part].append(key)
+		r = requests.get('https://translatewiki.net/w/api.php', params={
+			"action": "query",
+			"format": "json",
+			"list": "messagecollection",
+			"mcgroup": part,
+			"mclanguage": lang,
+			"mclimit": "max",
+			"mcfilter": "!optional|!ignored|!hastranslation"
+		})
+		not_in_order[part] = r.json()["query"]["messagecollection"]
 	notify_ambassador(lang, not_in_order)
